@@ -1,0 +1,57 @@
+version: '3.4'
+
+services:
+  wikibooks01:
+    build: 
+      context: ./wikibooks01
+    hostname: wikibooks01
+    ports:
+      - "50070:50070"
+    extra_hosts:
+      - "wikibooks02: 172.28.0.3"
+      - "wikibooks03: 172.28.0.4"
+      - "wikibooks04: 172.28.0.5"
+    tty: true
+    networks:
+      hadoop-network:
+        ipv4_address: 172.28.0.2
+  
+
+  wikibooks02:
+    image: centos:hadoop
+    hostname: wikibooks02
+    links:
+      - "wikibooks01:wikibooks01"
+    tty: true
+    networks:
+      hadoop-network:
+        ipv4_address: 172.28.0.3
+  
+  wikibooks03:
+    image: centos:hadoop
+    hostname: wikibooks03
+    links:
+      - "wikibooks01:wikibooks01"
+    tty: true
+    networks:
+      hadoop-network:
+        ipv4_address: 172.28.0.4
+  
+  wikibooks04:
+    image: centos:hadoop
+    hostname: wikibooks04
+    links:
+      - "wikibooks01:wikibooks01"
+    tty: true
+    networks:
+      hadoop-network:
+        ipv4_address: 172.28.0.5
+  
+
+networks:
+  hadoop-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
