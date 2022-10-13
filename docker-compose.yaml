@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
   wikibooks01:
+    image: yoonjae/wikibooks01:hadoop
     build: 
       context: ./wikibooks01
     hostname: wikibooks01
