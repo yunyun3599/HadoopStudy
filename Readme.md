@@ -44,7 +44,7 @@ $ start-dfs.sh
 
 ## 웹 인터페이스 확인
 http://localhost:50070 혹은 http://172.28.0.2:50070 를 통해 웹 인터페이스 접근 가능  
-image.png
+![image](https://user-images.githubusercontent.com/55429237/195596927-1a967442-0a30-4d45-abab-f67205bf4660.png)
 
 ## 작업 완료 후  
 ```docker-compose down```
