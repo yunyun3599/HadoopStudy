@@ -26,13 +26,13 @@ wikibooks01 컨테이너만 Datanode를 알려주기 위해 ./wikibooks01 디렉
 ## hadoop_wikibooks01 _1 컨테이너 내에서 데이터노드 연결
 SSH 연결 후에는 해당 서버로 들어가므로 exit 하고 다시 wikibooks01로 나와야 함
 ```sh
-$ ssh wikibooks02
-$ exit
-$ ssh wikibooks03
-$ exit
-$ ssh wikibooks04
-$ exit
-$ start-dfs.sh
+ssh wikibooks02
+exit
+ssh wikibooks03
+exit
+ssh wikibooks04
+exit
+start-dfs.sh
 ```
 
 ## jps를 통한 자바 프로세스 확인

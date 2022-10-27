@@ -3,6 +3,7 @@ version: '3.4'
 services:
   wikibooks01:
     image: yoonjae/wikibooks01:hadoop
+    container_name: wikibooks01
     build: 
       context: ./wikibooks01
     hostname: wikibooks01
@@ -21,6 +22,7 @@ services:
 
   wikibooks02:
     image: centos:hadoop
+    container_name: wikibooks02
     hostname: wikibooks02
     links:
       - "wikibooks01:wikibooks01"
@@ -31,6 +33,7 @@ services:
   
   wikibooks03:
     image: centos:hadoop
+    container_name: wikibooks03
     hostname: wikibooks03
     links:
       - "wikibooks01:wikibooks01"
@@ -41,6 +44,7 @@ services:
   
   wikibooks04:
     image: centos:hadoop
+    container_name: wikibooks04
     hostname: wikibooks04
     links:
       - "wikibooks01:wikibooks01"

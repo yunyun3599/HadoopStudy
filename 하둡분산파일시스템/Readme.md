@@ -166,3 +166,347 @@ editslog는 제한 없이 크기가 계속 커질 수 있기 때문에 크기가
 -> 보조 네임 노드가 다운돼 있더라도 네임노드가 동작하는 데는 문제가 없음  
 그러나 네임노드 재구동시 editslog 크기가 너무 커 네임노드 메모리에 로딩되지 못하는 경우가 생길 수 있으므로 보조 네임노드의 상태와 editslog 용량을 계속 확인해주어야 함. 
 ```
+
+
+<hr>
+
+# HDFS 명령어
+hdfs를 제어할 수 있는 셸 명령어 = FileSystemShell (fs 셸)  
+
+fs shell 실행 방법  
+```shell
+./bin/hadoop fs -cmd [args]
+```
+- cmd: 사용자가 설정한 명령어
+- args: 해당 명령어르ㅡㄹ 실행할 때 필요한 파라미터
+
+### 어떤 명령어가 제공되는 지 확인
+```shell
+hadoop fs -help
+```
+
+fs shell: 파일에 대한 권한 부여, 파일의 복사 및 삭제와 같은 일반적인 파일에 대한 작업을 대부분 지원하며, 파일의 복제 정보에 대한 변경과 같은 HDFS의 특정 작업도 지원한다. 
+
+> 설정 환경상 도커 컨테이너 내의 홈 디렉터리 != 하둡 홈 디렉터리 이기 때문에 명령어를 ./bin/hadoop이 아닌 $HADOOP_HOME/bin/hadoop 으로 진행했다.   
+
+<br> 
+<hr/>
+
+## 파일 목록 보기 - ls, lsr
+### <span style="background: lightyellow;">ls</span>
+지정한 디렉터리에 있는 파일의 정보를 출력 or 특정한 파일을 지정해 정보를 출력
+```shell
+./bin/hadoop fs -ls [디렉터리|파일...]
+```
+
+사용 예
+1. 경로 미지정시 홈 디렉터리를 조회
+2. 디렉터리를 지정할 경우 해당 디렉터리에 저장돼 있는 파일 목록을 출력
+
+![](Screenshot%20from%202022-10-27%2020-22-56.png.png)
+> 미리 "$HADOOP_HOME/bin/hadoop sample / "명령어로 샘플 파일을 생성 후 경로에 넣어두었다. 
+
+### <span style="background: lightyellow;">lsr</span>
+현재 디렉터리의 하위 디렉터리 정보까지 출력한다. (-lsr은 deprecated. -ls -R 이용하기)
+```shell
+./bin/hadoop fs -ls -R [디렉터리|파일...]
+```
+사용 예  
+![](2022-10-27-20-31-00.png)
+
+-mkdir 명렁을 통해 미리 폴더를 만들어두고 예시 파일을 그 아래 위치시킨 후 lsr 명령을 한 상황이다. 
+
+<br>
+<hr/>
+
+## 파일 용랑 확인 - du, dus
+### <span style="background: lightyellow;">du</span>
+지정한 디렉터리나 파일의 사용량을 확인하는 명령어로 바이트 단위로 결과를 출력한다.  
+(-dus는 deprecated. -du -s 를 대신 쓰기)  
+```shell
+./bin/hadoop fs -du [디렉터리|파일...]
+```
+
+사용 예
+
+![](2022-10-27-20-34-36.png)
+
+### <span style="background: lightyellow;">dus</span>
+전체 합계 용량만 출력
+```shell
+./bin/hadoop fs -dus [디렉터리|파일...]
+```
+
+사용 예  
+![](2022-10-27-20-39-08.png)
+
+<br>
+<hr/>
+
+## 파일 내용 보기 - cat, text
+### <span style="background: lightyellow;">cat</span>
+지정한 파일의 내용을 화면에 출력한다.  
+텍스트 파일만 출력 가능하다. 
+
+```shell
+./bin/hadoop fs -cat [파일...]
+```
+
+사용 예  
+![](2022-10-27-20-43-30.png)
+
+### <span style="background: lightyellow;">text</span>
+zip 파일 형태로 압축된 파일도 텍스트 형태로 화면에 출력한다. 
+
+```shell
+./bin/hadoop fs -text [파일...]
+```
+
+사용 예  
+![](2022-10-27-20-47-07.png)
+
+<br>
+<hr/>
+
+## 디렉터리 생성 - mkdir
+### <span style="background: lightyellow;">mkdir</span>
+지정한 경로에 디렉터리를 생성한다.  
+이미 존재하는 디렉터리를 생성할 경우 오류가 발생한다.  
+```shell
+./bin/hadoop fs -mkdir [디렉터리]
+```
+
+사용 예  
+![](2022-10-27-20-53-59.png)
+
+<br>
+<hr/>
+
+## 파일 복사 - put, get, getmerge, cp, copyFromLocal, copyToLocal
+### <span style="background: lightyellow;">put</span>  
+지정한 경로에 로컬 파일 시스템의 파일 및 디렉터리를 목적지 경로로 복사한다. 
+```shell
+./bin/hadoop fs -put [로컬 디렉터리|파일...] [목적지 디렉터리|파일]
+```
+
+사용 예  
+![](2022-10-27-20-57-01.png)  
+
+로컬에 있는 파일 여러개를 put 하는 것도 가능하다.  
+![](2022-10-27-21-00-48.png)  
+
+타깃 디렉터리가 기존에 없는 경우는 새로 생성하고 파일을 옮겨 넣는다. 
+
+### <span style="background: lightyellow;">copyFromLocal</span>
+put 명령어와 동일한 기능을 제공한다. 
+```shell
+./bin/hadoop fs -copyFromLocal [로컬 디렉터리|파일...] [목적지 디렉터리|파일]
+```
+
+### <span style="background: lightyellow;">get</span>
+HDFS 저장된 데이터를 로컬 파일 시스템으로 복사한다.  
+파일 무결성을 위하 HDFS는 체크섬 기능을 사용하는데, -crc옵션을 사용하면 로컬 파일 시스템에 체크섬 파일도 복사된다.  
+-ignoreCrc 옵션을 사용하면 해당 파일의 체크섬을 확인하지 않는다. 
+```shell
+./bin/hadoop fs -get <-ignoreCrc> <-crc> [소스 디렉터리|파일...] [로컬 디렉터리|파일]
+```
+
+사용예  
+![](2022-10-27-21-14-20.png)
+
+### <span style="background: lightyellow;">getmerge</span>
+지정한 경로에 있는 모든 파일의 내용을 합친 후, 로컬 파일 시스템에 단 하나의 파일로 복사한다.  
+```shell
+./bin/hadoop fs -getmerge [소스 디렉터리|파일...] [로컬 디렉터리|파일]
+```
+
+사용예  
+![](2022-10-27-21-17-21.png)
+
+### <span style="background: lightyellow;">cp</span>
+지정한 소스 디렉터리 및 파일을 목적지 경로로 복사하는 기능을 제공한다.  
+여러 개의 파일을 복사할 경우 반드시 디렉터리로 복사되도록 설정한다.
+```shell
+./bin/hadoop fs -cp [소스 디렉터리|파일...] [로컬 디렉터리|파일]
+```
+
+사용예  
+![](2022-10-27-21-20-40.png)
+
+### <span style="background: lightyellow;">cpToLocal</span>
+get 명령어와 동일한 기능을 제공한다 
+```shell
+./bin/hadoop fs -cp [소스 디렉터리|파일...] [로컬 디렉터리|파일]
+```
+<br>
+<hr/>
+
+## 파일 이동 - mv, moveFromLocal
+### <span style="background: lightyellow;">mv</span>  
+소스 디렉터리 및 파일을 목적지 경로로 옮긴다.  
+여러 개 파일을 이동할 경우 반드시 목적지 경로를 디렉터리로 해야한다. 
+```shell
+./bin/hadoop fs -mv [소스 디렉터리|파일...] [목적지 디렉터리|파일]
+```
+
+사용 예  
+![](2022-10-27-21-24-30.png)
+
+### <span style="background: lightyellow;">moveFromLocal</span>  
+put 명령어와 동일하게 동작하지만 로컬 파일 시스템으로 파일이 복사된 후 소스 경로의 파일은 삭제된다 
+```shell
+./bin/hadoop fs -moveFromLocal [소스 디렉터리|파일...] [목적지 디렉터리|파일]
+```
+
+<br>
+<hr/>
+
+## 파일 삭제 - rm
+### <span style="background: lightyellow;">rm</span>  
+지정한 디렉터리나 파일을 삭제할 수 있다.  
+디렉터리는 비어있는 경우에만 삭제할 수 있다.  
+```shell
+./bin/hadoop fs -rm [디렉터리|파일...]
+```
+
+사용 예  
+![](2022-10-27-21-27-55.png)
+
+**비어있지 않은 디렉터리를 삭제하고 싶다면 -rm 대신 -rmr을 사용하면 된다**
+
+<br>
+<hr/>
+
+## 카운트 값 조회 - count
+### <span style="background: lightyellow;">count</span>  
+지정한 경로에 대한 전체 디렉터리 개수, 전체 파일 개수, 전체 파일 크기, 지정한 경로명을 출력한다  
+-q 옵션 사용 시에 디렉터리에서 생성할 수 있는 파일 개수나 용량의 제한값을 확인할 수 있다.  
+```shell
+./bin/hadoop fs -count <-q> [디렉터리|파일...]
+```
+
+사용 예  
+![](2022-10-27-21-32-28.png)
+
+<br>
+<hr/>
+
+## 파일의 마지막 내용 확인 - tail
+### <span style="background: lightyellow;">tail</span>  
+지정한 파일의 마지막 1KB에 해당하는 내용을 화면에 출력한다.   
+-f 옵션을 사용하면 해당 파일에 내용이 추가될 때 화면에 출력된 내용도 함께 갱신된다.  
+```shell
+./bin/hadoop fs -tail [파일]
+```
+
+사용 예  
+![](2022-10-27-21-34-47.png)
+
+<br>
+<hr/>
+
+## 권한 변경 - chmod, chown, chgrp
+### <span style="background: lightyellow;">chmod</span>  
+지정한 경로에 대한 권한을 변경한다.  
+권한 변경은 chmod 명령어를 실행하는 사용자가 해당 파일의 소유자이거나, 슈퍼 유저일 때만 가능하다.  
+명령을 재귀적으로 실행하고 싶으면 -R 옵션을 준다. 
+```shell
+./bin/hadoop fs -chmod <-R>  [권한모드...] [디렉터리|파일...]
+```
+
+사용 예  
+![](2022-10-27-21-39-51.png)
+
+### <span style="background: lightyellow;">chown</span>  
+지정한 경로에 대한 소유권을 변경하는 명령어이다.  
+명령을 재귀적으로 실행하고 싶으면 -R 옵션을 준다. 
+```shell
+./bin/hadoop fs -chown <-R>  [변경사용자명:변경그룹명] [디렉터리|파일...]
+```
+
+사용 예  
+![](2022-10-27-21-41-42.png)
+
+### <span style="background: lightyellow;">chgrp</span>  
+지정한 경로에 대한 소유권 그룹만 변경하는 명령어이다.  
+명령을 재귀적으로 실행하고 싶으면 -R 옵션을 준다. 
+```shell
+./bin/hadoop fs -chown <-R>  [변경사용자명:변경그룹명] [디렉터리|파일...]
+```
+
+사용 예  
+![](2022-10-27-21-42-56.png)
+
+<br>
+<hr/>
+
+## 0바이트 파일 생성 - touchz
+### <span style="background: lightyellow;">touchz</span>  
+크기가 0바이트인 파일을 생성한다.  
+지정한 파일 명이 이미 0바이트 이상인 상태로 저장돼 있다면 오류가 발생한다. 
+```shell
+./bin/hadoop fs -touchz [파일...]
+```
+
+사용 예  
+![](2022-10-27-21-44-54.png)
+
+<br>
+<hr/>
+
+## 통계 정보 조회 - stat
+### <span style="background: lightyellow;">stat</span>  
+지정한 경로에 대한 통계 정보를 조회한다.  
+사용 가능한 출력 포맷 옵션
+- %b
+- %F
+- %n  
+- %o
+- %r
+- %y 
+- %Y
+```shell
+./bin/hadoop fs -stat <출력 포맷> [디렉터리|파일...]
+```
+
+사용 예  
+![](2022-10-27-21-47-17.png)
+
+
+<br>
+<hr/>
+
+## 복제 데이터 개수 변경 - setrep
+### <span style="background: lightyellow;">setrep</span>  
+설정한 파일의 복제 데이터 개수를 변경한다
+명령을 재귀적으로 실행하고 싶으면 -R 옵션을 준다. 
+
+```shell
+./bin/hadoop fs -setrep <-R> -w [복제 데이터 개수] [디렉터리|파일...]
+```
+
+사용 예  
+![](2022-10-27-21-50-04.png)
+
+## 휴지통 비우기 - expunge
+### <span style="background: lightyellow;">expunge</span>  
+휴지통을 비운다  
+HDFS의 휴지통 = .Trash/라는 임시 디렉터리 (시간이 지나야 완전히 삭제함)
+
+```shell
+./bin/hadoop fs -expunge
+```
+
+사용 예  
+![](2022-10-27-21-52-13.png)
+
+<br>
+<hr/>
+
+## 파일 형식 확인 - test
+### <span style="background: lightyellow;">test</span>  
+지정한 경로에 대해 [-ezd] 옵션으로 경로가 이미 존재하는지, 파일 크기가 0인지, 디렉터리인지 확인한다.  
+체크 결과가 맞을 경우 0을 출력한다.
+```shell
+./bin/hadoop fs -test -[defsz] [디렉터리|파일]
+```
