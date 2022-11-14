@@ -21,7 +21,7 @@ services:
   
 
   wikibooks02:
-    image: centos:hadoop
+    image: yoonjae/centos:hadoop
     container_name: wikibooks02
     hostname: wikibooks02
     links:
@@ -32,7 +32,7 @@ services:
         ipv4_address: 172.28.0.3
   
   wikibooks03:
-    image: centos:hadoop
+    image: yoonjae/centos:hadoop
     container_name: wikibooks03
     hostname: wikibooks03
     links:
@@ -43,7 +43,7 @@ services:
         ipv4_address: 172.28.0.4
   
   wikibooks04:
-    image: centos:hadoop
+    image: yoonjae/centos:hadoop
     container_name: wikibooks04
     hostname: wikibooks04
     links:

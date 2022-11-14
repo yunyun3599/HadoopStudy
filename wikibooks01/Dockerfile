@@ -1,4 +1,4 @@
-FROM centos:hadoop
+FROM yoonjae/centos:hadoop
 
 WORKDIR /
 
