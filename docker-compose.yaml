@@ -1,53 +1,51 @@
 version: '3.4'
 
 services:
-  wikibooks01:
-    image: yoonjae/wikibooks01:hadoop
-    container_name: wikibooks01
+  namenode:
+    image: yoonjae/namenode:hadoop
+    container_name: namenode
     build: 
-      context: ./wikibooks01
-    hostname: wikibooks01
+      context: ./namenode
+    hostname: namenode
     ports:
+
       - "50070:50070"
     extra_hosts:
-      - "wikibooks02: 172.28.0.3"
-      - "wikibooks03: 172.28.0.4"
-      - "wikibooks04: 172.28.0.5"
+      - "secondarynode: 172.28.0.3"
+      - "datanode01: 172.28.0.4"
+      - "datanode02: 172.28.0.5"
     tty: true
+    depends_on:
+      - secondarynode
+      - datanode01
+      - datanode02
+    entrypoint: /start.sh
     networks:
       hadoop-network:
         ipv4_address: 172.28.0.2
-        
-  
 
-  wikibooks02:
-    image: yoonjae/centos:hadoop
-    container_name: wikibooks02
-    hostname: wikibooks02
-    links:
-      - "wikibooks01:wikibooks01"
+  secondarynode:
+    image: yoonjae/hadoop:base
+    container_name: secondarynode
+    hostname: secondarynode
     tty: true
     networks:
       hadoop-network:
         ipv4_address: 172.28.0.3
   
-  wikibooks03:
-    image: yoonjae/centos:hadoop
-    container_name: wikibooks03
-    hostname: wikibooks03
-    links:
-      - "wikibooks01:wikibooks01"
+  datanode01:
+    image: yoonjae/hadoop:base
+    container_name: datanode01
+    hostname: datanode01
     tty: true
     networks:
       hadoop-network:
         ipv4_address: 172.28.0.4
   
-  wikibooks04:
-    image: yoonjae/centos:hadoop
-    container_name: wikibooks04
-    hostname: wikibooks04
-    links:
-      - "wikibooks01:wikibooks01"
+  datanode02:
+    image: yoonjae/hadoop:base
+    container_name: datanode02
+    hostname: datanode02
     tty: true
     networks:
       hadoop-network:
