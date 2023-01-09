@@ -8,3 +8,6 @@ COPY masters ${HADOOP_CONFIG_HOME}/masters
 COPY workers ${HADOOP_CONFIG_HOME}/workers
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
+
+COPY javatest /javatest
+RUN chmod +x /javatest/src/main/java/SingleFileWriteRead.java
