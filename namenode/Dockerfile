@@ -10,4 +10,3 @@ COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
 COPY javatest /javatest
-RUN chmod +x /javatest/src/main/java/SingleFileWriteRead.java
