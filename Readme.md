@@ -37,3 +37,14 @@ http://localhost:50070 혹은 http://172.28.0.2:50070 를 통해 웹 인터페�
 ## 작업 완료 후  
 ```docker-compose down```
 
+
+
+
+
+localhost ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBcWJekEdmg9DOx+z4XBXC7RaxBiHlY/GHrlm29S+TqWiPB3sz55Mc6JoctbUknBl2S4jjNb3bmFIOEzBL9Y4yY=
+secondarynode,178.28.0.3 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBcWJekEdmg9DOx+z4XBXC7RaxBiHlY/GHrlm29S+TqWiPB3sz55Mc6JoctbUknBl2S4jjNb3bmFIOEzBL9Y4yY=
+datanode01,172.28.0.4 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBcWJekEdmg9DOx+z4XBXC7RaxBiHlY/GHrlm29S+TqWiPB3sz55Mc6JoctbUknBl2S4jjNb3bmFIOEzBL9Y4yY=
+datanode02,172.28.0.5 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBcWJekEdmg9DOx+z4XBXC7RaxBiHlY/GHrlm29S+TqWiPB3sz55Mc6JoctbUknBl2S4jjNb3bmFIOEzBL9Y4yY=
+namenode,172.28.0.2 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBcWJekEdmg9DOx+z4XBXC7RaxBiHlY/GHrlm29S+TqWiPB3sz55Mc6JoctbUknBl2S4jjNb3bmFIOEzBL9Y4yY=
+172.28.0.3 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBcWJekEdmg9DOx+z4XBXC7RaxBiHlY/GHrlm29S+TqWiPB3sz55Mc6JoctbUknBl2S4jjNb3bmFIOEzBL9Y4yY=
+~                        
