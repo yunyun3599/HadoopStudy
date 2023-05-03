@@ -10,14 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="23ffb24c-0170-45d0-812c-c0e67c45037a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../../.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../hadoop_base_image/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../hadoop_base_image/core-site.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../hadoop_base_image/hdfs-site.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../hadoop_base_image/mapred-site.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../Readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker-compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../javatest/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +77,7 @@
       <option name="presentableId" value="Default" />
       <updated>1673264605863</updated>
       <workItem from="1673264606932" duration="1012000" />
-      <workItem from="1673272936359" duration="6429000" />
+      <workItem from="1673272936359" duration="6430000" />
     </task>
     <servers />
   </component>
