@@ -20,13 +20,17 @@ RUN cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
 # RUN ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -t ecdsa -N ""
 # RUN ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -t ed25519 -N "" 
 
-RUN echo secondarynode,172.28.0.3 $(cat /etc/ssh/ssh_host_ecdsa_key.pub  | cut --delimiter=" " --fields=-2) >> ~/.ssh/known_hosts
-RUN echo datanode01,172.28.0.4 $(cat /etc/ssh/ssh_host_ecdsa_key.pub  | cut --delimiter=" " --fields=-2) >> ~/.ssh/known_hosts
-RUN echo datanode02,172.28.0.5 $(cat /etc/ssh/ssh_host_ecdsa_key.pub  | cut --delimiter=" " --fields=-2) >> ~/.ssh/known_hosts
+RUN echo secondarynode,172.28.0.3 $(cat ~/.ssh/id_dsa.pub) >> ~/.ssh/known_hosts
+RUN echo datanode01,172.28.0.4 $(cat ~/.ssh/id_dsa.pub) >> ~/.ssh/known_hosts
+RUN echo datanode02,172.28.0.5 $(cat ~/.ssh/id_dsa.pub) >> ~/.ssh/known_hosts
+
+# RUN echo secondarynode,172.28.0.3 $(cat /etc/ssh/ssh_host_ecdsa_key.pub  | cut --delimiter=" " --fields=-2) >> ~/.ssh/known_hosts
+# RUN echo datanode01,172.28.0.4 $(cat /etc/ssh/ssh_host_ecdsa_key.pub  | cut --delimiter=" " --fields=-2) >> ~/.ssh/known_hosts
+# RUN echo datanode02,172.28.0.5 $(cat /etc/ssh/ssh_host_ecdsa_key.pub  | cut --delimiter=" " --fields=-2) >> ~/.ssh/known_hosts
 
 RUN mkdir /hadoop_home
 RUN cd /hadoop_home \
-    && wget "https://dlcdn.apache.org/hadoop/common/stable/hadoop-3.3.4.tar.gz" \
+    && wget "https://downloads.apache.org/hadoop/common/hadoop-3.3.4/hadoop-3.3.4.tar.gz" \
     && tar xvfz hadoop-3.3.4.tar.gz \
     && ln -sfn hadoop-3.3.4 hadoop
 
@@ -45,7 +49,7 @@ RUN mkdir /hadoop_home/temp
 RUN mkdir /hadoop_home/namenode_dir
 RUN mkdir /hadoop_home/datanode_dir
 
-RUN echo localhost $(cat ssh_host_ecdsa_key.pub  | cut --delimiter=" " --fields=-2) >> ~/.ssh/known_hosts
+# RUN echo localhost $(cat ssh_host_ecdsa_key.pub  | cut --delimiter=" " --fields=-2) >> ~/.ssh/known_hosts
 
 RUN hadoop namenode -format
 RUN echo "#!/bin/bash" >> /entrypoint.sh
